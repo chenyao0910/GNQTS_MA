@@ -29,13 +29,14 @@ int bestGen, bestExp, trainNum, testNum;
 double temp[10];
 vector<int> mm;
 vector<string> _csv(string s);
-string slidingType[13] = {"M2M", "Q2Q", "H2H", "Y2Y", "Y2H", "Y2Q", "Q2M", "H2Q", "H2M", "M*", "H*", "Q*", "Y*"};
+string slidingType[13] = { "M2M", "Q2Q", "H2H", "Y2Y", "Y2H", "Y2Q","Q2M", "H2Q", "H2M", "M*", "H*", "Q*","Y2M"};
+string beginDate;
 void M2M(int com)
 {
 	int beginning = 1;
 	for (int i = 1; i < date.size(); i++)
 	{
-		if (date[i] == "2020-01-02")
+		if (date[i] == beginDate)
 		{
 			beginning = i;
 			break;
@@ -119,7 +120,7 @@ void readFile(int com)
 	for (int i = 0; i < 256; i++)
 	{
 		int item = 0;
-		string filename = "SMAAAPL.csv";
+		string filename = "AAPLSMA.csv";
 		// cout << filename << endl;
 		ifstream inFile(filename, ios::in);
 		if (!inFile)
@@ -332,20 +333,92 @@ void trade(int generation, int exp, string startDate, string endDate, int m)
 	}
 	compareAndUpdate(best, worst, m, exp);
 }
-
+void slidingCase(int slidingNum)
+{
+	switch (slidingNum)
+	{
+	case 0: // M2M
+		trainNum = 1;
+		testNum = 1;
+		beginDate = "2011-12-01";
+		break;
+	case 1: // Q2Q
+		trainNum = 3;
+		testNum = 3;
+		beginDate = "2011-10-03";
+		break;
+	case 2: // H2H	
+		trainNum = 6;
+		testNum = 6;
+		beginDate = "2011-07-01";
+		break;
+	case 3: // Y2Y
+		trainNum = 12;
+		testNum = 12;
+		beginDate = "2011-01-03";
+		break;
+	case 4: // Y2H
+		trainNum = 12;
+		testNum = 6;
+		beginDate = "2011-01-03";
+		break;
+	case 5: // Y2Q
+		trainNum = 12;
+		testNum = 3;
+		beginDate = "2011-01-03";
+		break;
+	case 6: // Q2M
+		trainNum = 3;
+		testNum = 1;
+		beginDate = "2011-10-03";
+		break;
+	case 7: // H2Q
+		trainNum = 6;
+		testNum = 3;
+		beginDate = "2011-07-01";
+		break;
+	case 8: // H2M
+		trainNum = 6;
+		testNum = 3;
+		beginDate = "2011-07-01";
+		break;
+	case 9: // M*
+		trainNum = 1;
+		testNum = 1;
+		beginDate = "2011-01-03";
+		break;
+	case 10: // H*
+		trainNum = 6;
+		testNum = 6;
+		beginDate = "2011-01-03";
+		break;
+	case 11: // Q*
+		trainNum = 3;
+		testNum = 3;
+		beginDate = "2011-01-03";
+		break;
+	case 12: // Y2M
+		trainNum = 12;
+		testNum = 1;
+		beginDate = "2011-01-03";
+		break;
+	default:
+		break;
+	}
+}
 int main()
 {
 	int historyBestGen, historyBestExp;
 	srand(343);
 	readFile(0);
-	M2M(0);
 	for (int m = 0; m < 8; m++)
 	{
 		slidingCase(m);
+		M2M(0);
 		for (int k = 0; k < mm.size() - trainNum; k += testNum)
 		{
 			ofstream myfile;
-			string file = "AAPL_" + to_string(delta) + "_" + to_string(date[mm[k]]) + "_" + to_string(date[mm[k + trainNum] - 1]) + ".csv";
+			string file = "AAPL_" + slidingType[m] + "_" + to_string(delta) + "_" + date[mm[k]] + "_" + date[mm[k + trainNum] - 1] + ".csv";
 			myfile.open(file);
 			for (int i = 0; i < 50; i++)
 			{
@@ -371,28 +444,30 @@ int main()
 				}
 			}
 			myfile << "algo"
-				   << ","
-				   << "GNQTS" << endl;
+				<< ","
+				<< "GNQTS" << endl;
 			myfile << "exp"
-				   << "," << 50 << endl;
+				<< "," << 50 << endl;
 			myfile << "gen"
-				   << "," << 10000 << endl;
+				<< "," << 10000 << endl;
 			myfile << "p amount"
-				   << "," << 10 << endl;
+				<< "," << 10 << endl;
 			myfile << endl;
 			myfile << "initial capital"
-				   << "," << 10000000 << endl;
+				<< "," << 10000000 << endl;
 			myfile << "BestExp"
-				   << "," << historyBestExp << endl;
+				<< "," << historyBestExp << endl;
 			myfile << "BestGen"
-				   << "," << historyBestGen + 1 << endl;
+				<< "," << historyBestGen + 1 << endl;
 			myfile << historyRecord[0] << "," << historyRecord[1] << "," << historyRecord[2] << "," << historyRecord[3] << endl;
 			myfile << "Return :"
-				   << "," << historyBest << "%" << endl;
+				<< "," << historyBest << "%" << endl;
 			// cout << historyRecord[0] << "," << historyRecord[1] << "," << historyRecord[2] << "," << historyRecord[3] << endl;
 			// cout << "Return :" << "," << historyBest << "%" << endl;
 			historyBest = 0, globalBest = 0, bestGen = 0, bestExp = 0;
 		}
+		mm.clear();
+		srand(343);
 	}
 	return 0;
 }
@@ -409,64 +484,4 @@ vector<string> _csv(string s)
 		c++;
 	}
 	return arr;
-}
-void slidingCase(int slidingNum)
-{
-	switch (slidingNum)
-	{
-	case 0: // M2M
-		trainNum = 1;
-		testNum = 1;
-		break;
-	case 1: // Q2Q
-		trainNum = 3;
-		testNum = 3;
-		break;
-	case 2: // H2H
-		trainNum = 6;
-		testNum = 6;
-		break;
-	case 3: // Y2Y
-		trainNum = 12;
-		testNum = 12;
-		break;
-	case 4: // Y2H
-		trainNum = 12;
-		testNum = 6;
-		break;
-	case 5: // Y2Q
-		trainNum = 12;
-		testNum = 3;
-		break;
-	case 6: // Q2M
-		trainNum = 3;
-		testNum = 1;
-		break;
-	case 7: // H2Q
-		trainNum = 6;
-		testNum = 3;
-		break;
-	case 8: // H2M
-		trainNum = 6;
-		testNum = 3;
-		break;
-	case 9: // M*
-		trainNum = 1;
-		testNum = 12;
-		break;
-	case 10: // H*
-		trainNum = 6;
-		testNum = 12;
-		break;
-	case 11: // Q*
-		trainNum = 3;
-		testNum = 12;
-		break;
-	case 12: // Y*
-		trainNum = 12;
-		testNum = 12;
-		break;
-	default:
-		break;
-	}
 }
