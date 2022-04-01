@@ -1,0 +1,17 @@
+curl 'https://www.swatch.com/on/demandware.store/Sites-swarp-AM-Site/en_US/Cart-AddProduct' \
+  -H 'authority: www.swatch.com' \
+  -H 'sec-ch-ua: " Not A;Brand";v="99", "Chromium";v="99", "Google Chrome";v="99"' \
+  -H 'accept: application/json' \
+  -H 'content-type: application/x-www-form-urlencoded' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  -H 'origin: https://www.swatch.com' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: same-origin' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://www.swatch.com/en-us/just-white-soft-gw151o/no-referrer' \
+  -H 'accept-language: zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7' \
+  -H 'cookie: dwanonymous_6691ddf64b50c88cd6f0e9a8cba306bd=bda6HzNXvYbdG6mdoZbKWhla5O; sid=bNGIR-wk6WA4F0NBSXlU7vulDWsYGlhPMgQ; selectedCountry=US; selectedLocale=en_US; __cq_dnt=1; dw_dnt=1; dwsid=4-hPrwCba8ohP9B7ObDBW3ScyoP0pdrlKyyvlp_WOKt33tgajLgU40Az2hn2iphAC5Vxf0gXq305TLnuFqOpUg==; _gcl_au=1.1.797801042.1648321491; _gid=GA1.2.1425234356.1648321491; _scid=c3740979-ba02-4483-88a9-cef0eb62b648; bounceClientVisit2883v=N4IgNgDiBcIBYBcEQM4FIDMBBNAmAYnvgO6kB0KxAhggMZxm0D2AtkQKYB2AtAK7oEARgEsmtdgCcqLYbW4smTTpRr0yiFmBAAaEBJggQAXyA; tracker_device=7e4a8915-23e5-435d-8884-22f00fb25bfd; FPLC=dvM4nf3wC65UAedWLa9i7asC6fDxow33INTIXk%2B9N5VkQKyr6jyX%2BX45iHdudq4JVkkQiJ567toaOL08cuvpnVEjctJS0TXmaz1hgjJILCq3xLTytXP9b5fqBa38%2Bw%3D%3D; FPID=FPID2.2.%2BlA5x1FtTWGJfArUdGTQ%2B2BOL8tbMTPIAUFcRR%2BG%2B6s%3D.1648321491; _clck=14d9lpk|1|f03|0; _sctr=1|1648310400000; _pin_unauth=dWlkPVpEaG1OR1prWTJJdFltRmlOaTAwWVdRNUxUZ3pNV0l0TmpCak5UTTBaVFJqWTJFMA; dwanonymous_c1aa52b08d8fe151d0dd2055a88b3d1b=bcnJGMyHVnqDZk67PFGLPilnaB; _dc_gtm_UA-52506602-1=1; _ga_WSL7YLP5ER=GS1.1.1648321490.1.1.1648323252.0; _uetsid=9d4dee60ad3711ecb06859fc67351770; _uetvid=9d4e1200ad3711ec9b77a12a62394d79; _clsk=1m8awj1|1648323252948|33|0|i.clarity.ms/collect; _ga=GA1.2.206335620.1648321491' \
+  --data-raw 'pid=SO33J100&quantity=0&options=%5B%5D&tokenizationtype=&iseligible=false&gtmAddButtonType=pdp%20button&gtmListLabel=Best%20Sellers%20%2F%20product&gtmPositionLabel=16&csrf_token=9JrHJ_pQO4LFJe3b8i1zikWKiBfC0mPGIY3N0_YTY1hn6qYSflr_8M81qpMpkWA--vwiuStGEplWZ11oPrD3wsFjdCe4die2cj2nY93npXIuelyLCyTLQjTWRoPsIOWXTK02lV1DBslNcKMPHoH-KHvvlrlSkO7rA2hsZ7j80fWiBIkffFk%3D' \
+  --compressed
