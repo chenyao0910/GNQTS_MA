@@ -35,7 +35,7 @@ int bestGen, bestExp, trainNum, testNum;
 double temp[10];
 vector<int> mm;
 vector<string> _csv(string s);
-string slidingType[13] = { "M2M", "Q2Q", "H2H", "Y2Y", "Y2H", "Y2Q","Q2M", "H2Q", "H2M", "M*", "H*", "Q*","Y2M"};
+string slidingType[31] = {"M2M", "Q2Q", "H2H", "Y2Y", "Y2H", "Y2Q","Q2M", "H2Q", "H2M", "M*", "H*", "Q*","Y2M","YY2YY","YYY2H","YH2H","YH2YH","YY2H","YYY2YH","YYY2YYY","YY2YH","YYY2Y","YH2Y","YYY2Q","YH2M","YH2Q","YYY2M","YY2Y","YY2M","YY2Q","YYY2YY"};
 string beginDate;
 void M2M(int com)
 {
@@ -408,9 +408,85 @@ void slidingCase(int slidingNum)
         testNum = 1;
         beginDate = "2011-01-03";
         break;
+    case 13: // YY2YY
+        trainNum = 24;
+        testNum = 24;
+        beginDate = "2010-01-04";
+        break;
+    case 14: // YYY2H
+        trainNum = 36;
+        testNum = 6;
+        beginDate = "2009-07-01";
+    case 15: //YH2H
+        trainNum = 18;
+        testNum = 6;
+        beginDate = "2013-07-01";
+    case 16: //YH2YH
+        trainNum = 18;
+        testNum = 18;
+        beginDate = "2013-07-01";
+    case 17: //YY2H
+        trainNum = 24;
+        testNum = 6;
+        beginDate ="2010-01-04";
+    case 18: //YYY2YH
+        trainNum = 36;
+        testNum = 18;
+        beginDate = "2009-01-02";
+    case 19: //YYY2YYY
+        trainNum = 36;
+        testNum = 36;
+        beginDate = "2009-01-02";
+    case 20: //YY2YH
+        trainNum = 24;
+        testNum = 18;
+        beginDate = "2010-01-04";
+    case 21: //YYY2Y
+        trainNum = 36;
+        testNum = 12;
+        beginDate = "2009-01-02";
+    case 22: //YH2Y
+        trainNum = 18;
+        testNum = 12;
+        beginDate ="2010-07-01";
+    case 23: //YYY2Q
+        trainNum = 36;
+        testNum = 3;
+        beginDate = "2009-07-01";
+    case 24: //YH2M
+        trainNum = 18;
+        testNum = 1;
+        beginDate = "2010-07-01";
+    case 25: //YH2Q
+        trainNum = 18;
+        testNum = 3;
+        beginDate = "2010-07-01";
+    case 26: //YYY2M
+        trainNum = 36;
+        testNum = 1;
+        beginDate = "2009-01-02";
+    case 27: //YY2Y
+        trainNum = 24;
+        testNum = 12;
+        beginDate = "2010-01-04";
+    case 28: //YY2M
+        trainNum = 24;
+        testNum = 1;
+        beginDate = "2010-01-04";
+    case 29: //YY2Q
+        trainNum = 24;
+        testNum = 3;
+        beginDate = "2010-01-04";
+    case 30: // YYY2YY
+        trainNum = 36;
+        testNum = 24;
+        beginDate = "2009-01-02";
     default:
         break;
     }
+ string slidingType[31] = {"M2M", "Q2Q", "H2H", "Y2Y", "Y2H", "Y2Q","Q2M", "H2Q", "H2M", "M*", "H*", "Q*","Y2M","YY2YY","YYY2H","YH2H","YH2YH","YY2H","YYY2YH","YYY2YYY","YY2YH","YYY2Y","YH2Y","YYY2Q","YH2M","YH2Q","YYY2M","YY2Y","YY2M","YY2Q","YYY2YY"};
+
+
 }
 int main()
 {
