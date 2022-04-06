@@ -484,9 +484,6 @@ void slidingCase(int slidingNum)
     default:
         break;
     }
- string slidingType[31] = {"M2M", "Q2Q", "H2H", "Y2Y", "Y2H", "Y2Q","Q2M", "H2Q", "H2M", "M*", "H*", "Q*","Y2M","YY2YY","YYY2H","YH2H","YH2YH","YY2H","YYY2YH","YYY2YYY","YY2YH","YYY2Y","YH2Y","YYY2Q","YH2M","YH2Q","YYY2M","YY2Y","YY2M","YY2Q","YYY2YY"};
-
-
 }
 int main()
 {
