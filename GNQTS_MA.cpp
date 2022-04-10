@@ -34,7 +34,7 @@ int globalRecord[4];
 int bestGen, bestExp, trainNum, testNum;
 double temp[10];
 vector<int> mm;
-vector<int> trainRecord;
+int trainRecord[4];
 vector<string> _csv(string s);
 string slidingType[31] = {"M2M", "Q2Q", "H2H", "Y2Y", "Y2H", "Y2Q", "Q2M", "H2Q", "H2M", "M*", "H*", "Q*", "Y2M", "YY2YY", "YYY2H", "YH2H", "YH2YH", "YY2H", "YYY2YH", "YYY2YYY", "YY2YH", "YYY2Y", "YH2Y", "YYY2Q", "YH2M", "YH2Q", "YYY2M", "YY2Y", "YY2M", "YY2Q", "YYY2YY"};
 string beginDate;
@@ -271,7 +271,6 @@ void testTrade(string startDate, string endDate,int m)
     ofstream testfile;
     string file= "AAPL_TEST_" + slidingType[m] + "_" + to_string(delta) + "_" + startDate + "_" + endDate + ".csv";
     testfile.open(".//" + slidingType[m] + "//" + file);
-    testfile.open(filename);
     testfile << "algo"
              << ","
              << "GNQTS" << endl;
@@ -612,12 +611,12 @@ int main()
             // recording training ma
             for (int i = 0; i < 4; i++)
             {
-                trainRecord.push_back(historyRecord[i]);
+                trainRecord[i] = historyRecord[i];
             }
             historyBest = 0, globalBest = 0, bestGen = 0, bestExp = 0;
 
             // start testing
-            testTrade(date[mm[k+testNum],date[mm[k + testNum +trainNum] - 1],m);
+            testTrade(date[mm[k+testNum]],date[mm[k + testNum +trainNum] - 1],m);
         }
         mm.clear();
         srand(343);
