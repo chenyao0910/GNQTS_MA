@@ -26,7 +26,7 @@ double betaMatrix[4][8];
 int strategy[10][4];
 vector<string> date;
 vector<double> price;
-vector<vector<double> > MA(256);
+vector<vector<double>> MA(256);
 double localRecord[10];
 double globalBest, historyBest = 0;
 int historyRecord[4];
@@ -34,8 +34,9 @@ int globalRecord[4];
 int bestGen, bestExp, trainNum, testNum;
 double temp[10];
 vector<int> mm;
+vector<int> trainRecord;
 vector<string> _csv(string s);
-string slidingType[31] = {"M2M", "Q2Q", "H2H", "Y2Y", "Y2H", "Y2Q","Q2M", "H2Q", "H2M", "M*", "H*", "Q*","Y2M","YY2YY","YYY2H","YH2H","YH2YH","YY2H","YYY2YH","YYY2YYY","YY2YH","YYY2Y","YH2Y","YYY2Q","YH2M","YH2Q","YYY2M","YY2Y","YY2M","YY2Q","YYY2YY"};
+string slidingType[31] = {"M2M", "Q2Q", "H2H", "Y2Y", "Y2H", "Y2Q", "Q2M", "H2Q", "H2M", "M*", "H*", "Q*", "Y2M", "YY2YY", "YYY2H", "YH2H", "YH2YH", "YY2H", "YYY2YH", "YYY2YYY", "YY2YH", "YYY2Y", "YH2Y", "YYY2Q", "YH2M", "YH2Q", "YYY2M", "YY2Y", "YY2M", "YY2Q", "YYY2YY"};
 string beginDate;
 void M2M(int com)
 {
@@ -128,7 +129,7 @@ void readFile(int com)
         int item = 0;
         string filename = "AAPLSMA.csv";
         // cout << filename << endl;
-        ifstream inFile(filename,ios::in);
+        ifstream inFile(filename, ios::in);
         if (!inFile)
         {
             cout << "Open failed!" << endl;
@@ -220,7 +221,73 @@ void compareAndUpdate(int best, int worst, int m, int exp)
     }
     */
 }
-
+void testTrade(string startDate, string endDate,int m)
+{
+    int begin, end;
+    for (int i = 0; i < date.size(); i++)
+    {
+        if (date[i] == startDate)
+        {
+            begin = i;
+        }
+        if (date[i] == endDate)
+        {
+            end = i;
+        }
+    }
+    int buy1 = trainRecord[0];
+    int buy2 = trainRecord[1];
+    int sell1 = trainRecord[2];
+    int sell2 = trainRecord[3];
+    double fund = 10000000;
+    int flag = 0;
+    int share = 0;
+    int remain = 0;
+    for (int j = begin; j <= end; j++)
+    {
+        if (MA[buy1 - 1][j] > MA[buy2 - 1][j] && MA[buy1 - 1][j - 1] <= MA[buy2 - 1][j - 1] && flag == 0)
+        {
+            share = floor(fund / price[j]);
+            remain = (fund - floor(price[j] * share));
+            flag = 1;
+            // cout << "Buy " <<date[j] << "," << price[j]<<","<< MA[buy1-1][j-1] <<","<<MA[buy2-1][j-1]<<","<<MA[buy1-1][j] <<"," << MA[buy2-1][j] <<"," << share <<"," << remain <<endl;
+        }
+        else if (MA[sell1 - 1][j] < MA[sell2 - 1][j] && MA[sell1 - 1][j - 1] >= MA[sell2 - 1][j - 1] && flag == 1)
+        {
+            fund = (share * price[j]) + remain;
+            flag = 0;
+            share = 0;
+            // cout << "Sell " <<date[j] << "," << price[j]<<","<<MA[buy1-1][j-1] <<","<<MA[buy2-1][j-1]<<MA[buy1-1][j] <<"," << MA[buy2-1][j] <<"," <<setprecision(10)<< fund <<endl;
+        }
+    }
+    if (share != 0)
+    {
+        fund = (share * price[end]) + remain;
+        // cout << "Sell " <<date[end] << "," << price[end]<<","<<MA[buy1-1][end-1] <<","<<MA[buy2-1][end-1]<<MA[buy1-1][end] <<"," << MA[buy2-1][end] <<"," <<setprecision(10)<< fund <<endl;
+        share = 0;
+        flag = 0;
+    }
+    fund = int(fund);
+    ofstream testfile;
+    string file= "AAPL_TEST_" + slidingType[m] + "_" + to_string(delta) + "_" + startDate + "_" + endDate + ".csv";
+    testfile.open(".//" + slidingType[m] + "//" + file);
+    testfile.open(filename);
+    testfile << "algo"
+             << ","
+             << "GNQTS" << endl;
+    testfile << "exp"
+             << "," << 50 << endl;
+    testfile << "gen"
+             << "," << 10000 << endl;
+    testfile << "p amount"
+             << "," << 10 << endl;
+    testfile << endl;
+    testfile << "initial capital"
+             << "," << 10000000 << endl;
+    testfile << trainRecord[0] << "," << trainRecord[1] << "," << trainRecord[2] << "," << trainRecord[3] << endl;
+    testfile << "Return :"
+             << "," << (fund / 10000000) << "%" << endl;
+}
 void trade(int generation, int exp, string startDate, string endDate, int m)
 {
     int begin, end;
@@ -417,63 +484,63 @@ void slidingCase(int slidingNum)
         trainNum = 36;
         testNum = 6;
         beginDate = "2009-07-01";
-    case 15: //YH2H
+    case 15: // YH2H
         trainNum = 18;
         testNum = 6;
         beginDate = "2013-07-01";
-    case 16: //YH2YH
+    case 16: // YH2YH
         trainNum = 18;
         testNum = 18;
         beginDate = "2013-07-01";
-    case 17: //YY2H
+    case 17: // YY2H
         trainNum = 24;
         testNum = 6;
-        beginDate ="2010-01-04";
-    case 18: //YYY2YH
+        beginDate = "2010-01-04";
+    case 18: // YYY2YH
         trainNum = 36;
         testNum = 18;
         beginDate = "2009-01-02";
-    case 19: //YYY2YYY
+    case 19: // YYY2YYY
         trainNum = 36;
         testNum = 36;
         beginDate = "2009-01-02";
-    case 20: //YY2YH
+    case 20: // YY2YH
         trainNum = 24;
         testNum = 18;
         beginDate = "2010-01-04";
-    case 21: //YYY2Y
+    case 21: // YYY2Y
         trainNum = 36;
         testNum = 12;
         beginDate = "2009-01-02";
-    case 22: //YH2Y
+    case 22: // YH2Y
         trainNum = 18;
         testNum = 12;
-        beginDate ="2010-07-01";
-    case 23: //YYY2Q
+        beginDate = "2010-07-01";
+    case 23: // YYY2Q
         trainNum = 36;
         testNum = 3;
         beginDate = "2009-07-01";
-    case 24: //YH2M
+    case 24: // YH2M
         trainNum = 18;
         testNum = 1;
         beginDate = "2010-07-01";
-    case 25: //YH2Q
+    case 25: // YH2Q
         trainNum = 18;
         testNum = 3;
         beginDate = "2010-07-01";
-    case 26: //YYY2M
+    case 26: // YYY2M
         trainNum = 36;
         testNum = 1;
         beginDate = "2009-01-02";
-    case 27: //YY2Y
+    case 27: // YY2Y
         trainNum = 24;
         testNum = 12;
         beginDate = "2010-01-04";
-    case 28: //YY2M
+    case 28: // YY2M
         trainNum = 24;
         testNum = 1;
         beginDate = "2010-01-04";
-    case 29: //YY2Q
+    case 29: // YY2Q
         trainNum = 24;
         testNum = 3;
         beginDate = "2010-01-04";
@@ -487,7 +554,7 @@ void slidingCase(int slidingNum)
 }
 int main()
 {
-    
+
     int historyBestGen, historyBestExp;
     srand(343);
     readFile(0);
@@ -501,7 +568,7 @@ int main()
         {
             ofstream myfile;
             string file = "AAPL_" + slidingType[m] + "_" + to_string(delta) + "_" + date[mm[k]] + "_" + date[mm[k + trainNum] - 1] + ".csv";
-            myfile.open(".//"+ slidingType[m] + "//" + file);
+            myfile.open(".//" + slidingType[m] + "//" + file);
             for (int i = 0; i < 50; i++)
             {
                 initial();
@@ -510,10 +577,7 @@ int main()
                     randomize();
                     calculate();
                     trade(j, i, date[mm[k]], date[mm[k + trainNum] - 1], k);
-                    // trade(j, i, "2020-01-02", "2021-06-30", 0);
                 }
-                // cout << globalRecord[0] << "," << globalRecord[1] << "," << globalRecord[2] << "," << globalRecord[3] << endl;
-                // cout << globalBest <<endl;
                 if (globalBest > historyBest)
                 {
                     historyBest = globalBest;
@@ -526,27 +590,34 @@ int main()
                 }
             }
             myfile << "algo"
-                << ","
-                << "GNQTS" << endl;
+                   << ","
+                   << "GNQTS" << endl;
             myfile << "exp"
-                << "," << 50 << endl;
+                   << "," << 50 << endl;
             myfile << "gen"
-                << "," << 10000 << endl;
+                   << "," << 10000 << endl;
             myfile << "p amount"
-                << "," << 10 << endl;
+                   << "," << 10 << endl;
             myfile << endl;
             myfile << "initial capital"
-                << "," << 10000000 << endl;
+                   << "," << 10000000 << endl;
             myfile << "BestExp"
-                << "," << historyBestExp << endl;
+                   << "," << historyBestExp << endl;
             myfile << "BestGen"
-                << "," << historyBestGen + 1 << endl;
+                   << "," << historyBestGen + 1 << endl;
             myfile << historyRecord[0] << "," << historyRecord[1] << "," << historyRecord[2] << "," << historyRecord[3] << endl;
             myfile << "Return :"
-                << "," << historyBest << "%" << endl;
-            // cout << historyRecord[0] << "," << historyRecord[1] << "," << historyRecord[2] << "," << historyRecord[3] << endl;
-            // cout << "Return :" << "," << historyBest << "%" << endl;
+                   << "," << historyBest << "%" << endl;
+
+            // recording training ma
+            for (int i = 0; i < 4; i++)
+            {
+                trainRecord.push_back(historyRecord[i]);
+            }
             historyBest = 0, globalBest = 0, bestGen = 0, bestExp = 0;
+
+            // start testing
+            testTrade(date[mm[k+testNum],date[mm[k + testNum +trainNum] - 1],m);
         }
         mm.clear();
         srand(343);
