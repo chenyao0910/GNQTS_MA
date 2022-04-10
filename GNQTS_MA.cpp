@@ -284,9 +284,9 @@ void testTrade(string startDate, string endDate,int m)
     testfile << "initial capital"
              << "," << 10000000 << endl;
     testfile << trainRecord[0] << "," << trainRecord[1] << "," << trainRecord[2] << "," << trainRecord[3] << endl;
-    testfile << "Total Return" <<"," << fund << endl;
+    testfile << "Total Return" <<"," << fixed << setprecision(10) << fund << endl;
     testfile << "Return(%) :"
-             << "," << (fund / 10000000) << "%" << endl;
+             << "," << ((fund-10000000)/ 10000000) +"%" <<"," << endl;
 }
 void trade(int generation, int exp, string startDate, string endDate, int m)
 {
