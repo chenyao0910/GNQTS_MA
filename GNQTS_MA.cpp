@@ -221,7 +221,7 @@ void compareAndUpdate(int best, int worst, int m, int exp)
     }
     */
 }
-void testTrade(string startDate, string endDate,int m)
+void testTrade(string startDate, string endDate, int m)
 {
     int begin, end;
     for (int i = 0; i < date.size(); i++)
@@ -269,7 +269,7 @@ void testTrade(string startDate, string endDate,int m)
     }
     fund = int(fund);
     ofstream testfile;
-    string file= "AAPL_TEST_" + slidingType[m] + "_" + to_string(delta) + "_" + startDate + "_" + endDate + ".csv";
+    string file = "AAPL_TEST_" + slidingType[m] + "_" + to_string(delta) + "_" + startDate + "_" + endDate + ".csv";
     testfile.open(".//" + slidingType[m] + "//" + file);
     testfile << "algo"
              << ","
@@ -284,9 +284,10 @@ void testTrade(string startDate, string endDate,int m)
     testfile << "initial capital"
              << "," << 10000000 << endl;
     testfile << trainRecord[0] << "," << trainRecord[1] << "," << trainRecord[2] << "," << trainRecord[3] << endl;
-    testfile << "Total Return" <<"," << fixed << setprecision(10) << fund << endl;
+    testfile << "Total Return"
+             << "," << fixed << setprecision(10) << fund << endl;
     testfile << "Return(%) :"
-             << "," << ((fund-10000000)/ 10000000) <<"%" << endl;
+             << "," << ((fund - 10000000) / 10000000) << "%" << endl;
 }
 void trade(int generation, int exp, string startDate, string endDate, int m)
 {
@@ -617,7 +618,14 @@ int main()
             historyBest = 0, globalBest = 0, bestGen = 0, bestExp = 0;
 
             // start testing
-            testTrade(date[mm[k+testNum]],date[mm[k + testNum +trainNum] - 1],m);
+            if (k + testNum + trainNum > (mm.size() - 1))
+            {
+                continue;
+            }
+            else
+            {
+                testTrade(date[mm[k + testNum]], date[mm[k + testNum + trainNum] - 1], m);
+            }
         }
         mm.clear();
         srand(343);
@@ -638,6 +646,5 @@ vector<string> _csv(string s)
     }
     return arr;
 }
-
 
 // command
